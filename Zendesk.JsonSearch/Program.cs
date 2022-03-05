@@ -24,7 +24,7 @@ namespace Zendesk.JsonSearch
             {
                 case "1":
                     var entityInput = RetrieveEntityToSearch(entityMetadatas);
-                    var entityToSearch = entityMetadatas.FirstOrDefault(e => e.EntityCode.ToString().Equals(input.Trim()));
+                    var entityToSearch = entityMetadatas.FirstOrDefault(e => e.EntityCode.ToString().Equals(entityInput));
                     var propertyInput = RetrievePropertyToSearch(entityToSearch);
                     var propertyToSearch = propertyInput.Trim();
                     var valueToSearch = RetrieveValueToSearch();
