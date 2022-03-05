@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zendesk.JsonSearch", "Zendesk.JsonSearch\Zendesk.JsonSearch.csproj", "{8B236BA5-5644-4363-99AB-7905E2D7A76E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zendesk.JsonSearch.Models", "Zendesk.JsonSearch.Models\Zendesk.JsonSearch.Models.csproj", "{FCE5EC33-C337-4B1D-8A86-FEBC0CA299E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zendesk.JsonSearch.Logic", "Zendesk.JsonSearch.Logic\Zendesk.JsonSearch.Logic.csproj", "{54AC6609-E000-44B3-AC2F-B751E3BDBD70}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zendesk.JsonSearch.Logic.Test", "Zendesk.JsonSearch.Logic.Test\Zendesk.JsonSearch.Logic.Test.csproj", "{4E8BF368-AF6D-404A-8982-68F9C245D014}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zendesk.JsonSearch.Models.Test", "Zendesk.JsonSearch.Models.Test\Zendesk.JsonSearch.Models.Test.csproj", "{A32BB0B2-0FD5-4044-AECD-BDA83057F3E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3CAEA47-526A-47F0-A9ED-777FB7D7EDF6}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B236BA5-5644-4363-99AB-7905E2D7A76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B236BA5-5644-4363-99AB-7905E2D7A76E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B236BA5-5644-4363-99AB-7905E2D7A76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B236BA5-5644-4363-99AB-7905E2D7A76E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCE5EC33-C337-4B1D-8A86-FEBC0CA299E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCE5EC33-C337-4B1D-8A86-FEBC0CA299E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCE5EC33-C337-4B1D-8A86-FEBC0CA299E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCE5EC33-C337-4B1D-8A86-FEBC0CA299E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54AC6609-E000-44B3-AC2F-B751E3BDBD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54AC6609-E000-44B3-AC2F-B751E3BDBD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54AC6609-E000-44B3-AC2F-B751E3BDBD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54AC6609-E000-44B3-AC2F-B751E3BDBD70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E8BF368-AF6D-404A-8982-68F9C245D014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E8BF368-AF6D-404A-8982-68F9C245D014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E8BF368-AF6D-404A-8982-68F9C245D014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E8BF368-AF6D-404A-8982-68F9C245D014}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A32BB0B2-0FD5-4044-AECD-BDA83057F3E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A32BB0B2-0FD5-4044-AECD-BDA83057F3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A32BB0B2-0FD5-4044-AECD-BDA83057F3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A32BB0B2-0FD5-4044-AECD-BDA83057F3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17933190-4F59-40F6-944C-EA3DDEA6810E}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Zendesk.JsonSearch.Models.Test": {
+      "commandName": "Project"
+    }  
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "entities": [
+    {
+      "filename": "users",
+      "displayname": "Users",
+      "entityname": "user",
+      "entitycode": 1,
+      "nameproperty": "name",
+      "properties": [
+        "_id",
+        "name",
+        "created_at",
+        "verified"
+      ],
+      "indexingproperties": [
+        "name",
+        "verified"
+      ]
+    },
+
+    {
+      "filename": "tickets",
+      "displayname": "Tickets",
+      "entityname": "ticket",
+      "entitycode": 2,
+      "nameproperty": "subject",
+      "properties": [
+        "_id",
+        "created_at",
+        "type",
+        "subject",
+        "assignee_id",
+        "tags"
+      ],
+      "indexingproperties": [
+        "created_at",
+        "type",
+        "assignee_id",
+        "tags"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromentity": "user",
+      "fromproperty": "_id",
+      "toentity": "ticket",
+      "toproperty": "assignee_id"
+    }
+  ]
+}
