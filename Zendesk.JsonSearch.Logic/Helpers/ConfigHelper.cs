@@ -8,6 +8,7 @@ namespace Zendesk.JsonSearch.Logic.Helpers
 {
     internal static class ConfigHelper
     {
+        
         internal static IConfiguration InitialiseConfig(string configFile)
         {
             return new ConfigurationBuilder()

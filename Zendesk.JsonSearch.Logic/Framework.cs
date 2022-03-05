@@ -14,16 +14,24 @@ using Zendesk.JsonSearch.Models.Helpers;
 
 namespace Zendesk.JsonSearch.Logic
 {
+    /// <summary>
+    /// As all data will be loaded into memory, the class needs to be static or use singleton 
+    /// </summary>
     public static class Framework
     {
+     
         public static CacheModel.CachedEntityCollection CahcedEntityCollection { get; private set; }
         public static CacheModel.CachedIndexingCollection CahcedIndexingCollection { get; private set; }
         public static IConfiguration Configuration { get; private set; }
         public static Metadata Metadata { get; private set; }
 
-       
+
 
         #region Initialisation
+        /// <summary>
+        /// Initialise the app will load all data into memory
+        /// </summary>
+        /// <param name="configFile">Conifg file to be loaded. use default data if leave blank</param>
         public static void Initialise(string configFile = Consts.ConfigConsts.ConfigFile)
         {
             InitialConfiguration(configFile);
@@ -31,7 +39,6 @@ namespace Zendesk.JsonSearch.Logic
             InitialEntitiesAndIndexings();
 
         }
-
 
         private static void InitialConfiguration(string configFile)
         {
@@ -110,6 +117,7 @@ namespace Zendesk.JsonSearch.Logic
         #endregion
 
         #region Search
+   
         public static string GetSearchResult(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             var entities = Search(entityToSearch, propertyToSearch, valueToSearch);
@@ -128,7 +136,7 @@ namespace Zendesk.JsonSearch.Logic
             }
             else
             {
-                var entities = SearchByPrperty(entityToSearch, propertyToSearch, valueToSearch);
+                var entities = SearchByProperty(entityToSearch, propertyToSearch, valueToSearch);
                 if (entities == null || !entities.Any()) return null;
                 foreach (var entity in entities)
                 {
@@ -138,6 +146,10 @@ namespace Zendesk.JsonSearch.Logic
             }
         }
 
+        /// <summary>
+        /// Search by id field. id field is the key of the dictionary so needs to be treated separately to improve performance
+        /// </summary>
+   
         private static Entity SearchById(string entityToSearch, object id)
         {
             if (id == null) return null;
@@ -150,7 +162,7 @@ namespace Zendesk.JsonSearch.Logic
             return null;
         }
 
-        private static List<Entity> SearchByPrperty(string entityToSearch, string propertyToSearch, object valueToSearch)
+        private static List<Entity> SearchByProperty(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             if (propertyToSearch == nameof(Entity._id))
             {
@@ -169,6 +181,7 @@ namespace Zendesk.JsonSearch.Logic
             return entities;
         }
 
+  
         private static List<Entity> SearchWithIndexing(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             if (CahcedIndexingCollection.IndexingCollection.ContainsKey(entityToSearch)
@@ -204,6 +217,7 @@ namespace Zendesk.JsonSearch.Logic
             return filteredEntities.Any() ? filteredEntities : null;
         }
 
+  
         private static void IncludeRelatedEntities(Entity entity)
         {
             var stringBuilder = new StringBuilder();
@@ -217,7 +231,7 @@ namespace Zendesk.JsonSearch.Logic
                     var relatedEntities = GetFromRelatedEntity(entity, fromRelationship);
                     if (relatedEntities != null && relatedEntities.Any())
                     {
-                        entity.Attributes.Add(new KeyValuePair<string, object>(fromRelationship.ToEntity, relatedEntities.Select(e => e.name).ToList()));
+                        entity.Attributes.Add(new KeyValuePair<string, object>(GetFileNameByEntityName(fromRelationship.ToEntity), relatedEntities.Select(e => e.name).ToList()));
                     }
                 }
             }
@@ -237,19 +251,21 @@ namespace Zendesk.JsonSearch.Logic
 
         private static List<Entity> GetFromRelatedEntity(Entity entity, Relationship relationship)
         {
-            return SearchByPrperty(GetFileNameByEntityName(relationship.ToEntity), relationship.ToProperty, entity.GetAttribute<object>(relationship.FromProperty));
+            return SearchByProperty(GetFileNameByEntityName(relationship.ToEntity), relationship.ToProperty, entity.GetAttribute<object>(relationship.FromProperty));
         }
 
+ 
         private static List<Entity> GetToRelatedEntity(Entity entity, Relationship relationship)
         {
-            return SearchByPrperty(GetFileNameByEntityName(relationship.FromEntity), relationship.FromProperty, entity.GetAttribute<string>(relationship.ToProperty));
+            return SearchByProperty(GetFileNameByEntityName(relationship.FromEntity), relationship.FromProperty, entity.GetAttribute<string>(relationship.ToProperty));
         }
 
+ 
         private static string GetFileNameByEntityName(string entityName)
         {
             return Metadata.Entities.First(e => e.EntityName == entityName).FileName;
         }
-
+  
         public static List<EntityMetadata> GetEntities()
         {
             if (Metadata == null) Initialise();

@@ -4,8 +4,11 @@ using System.Text;
 
 namespace Zendesk.JsonSearch.Models.Helpers
 {
+    /// <summary>
+    /// This class is helper class to convert different types into string type
+    /// </summary>
     public static class FormatHelper
-    {
+    {       
         public static string ConvertToString(this List<string> array)
         {
             return ConvertToString(array.ToArray());

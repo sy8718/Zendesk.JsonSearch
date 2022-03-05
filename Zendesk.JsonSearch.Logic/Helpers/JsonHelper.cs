@@ -10,6 +10,7 @@ namespace Zendesk.JsonSearch.Logic.Helpers
 {
     internal static class JsonHelper
     {
+
         internal static List<Entity> ReadJson(string filePath, EntityMetadata metadata)
         {
             try
@@ -28,6 +29,8 @@ namespace Zendesk.JsonSearch.Logic.Helpers
                         var properties = ((JObject)currentEntity).Properties();
                         foreach (var property in properties)
                         {
+                            //As JSON.net will deserilise json to its own JToken types, it requires additional step to convert to .net native types
+                            //This needs to be extended if more types introduced.
                             if (property.Value.Type == JTokenType.Integer)
                             {
                                 entity.SetAttribute(property.Name, property.Value.ToObject<int>().ToString());

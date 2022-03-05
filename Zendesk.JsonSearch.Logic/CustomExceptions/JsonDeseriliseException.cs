@@ -1,4 +1,8 @@
-﻿using System;
+﻿//-----------------------------------------------------------------
+// This is the custom exception to hold json deserilisation exceptions
+//-----------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 

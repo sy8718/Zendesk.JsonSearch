@@ -32,17 +32,28 @@ namespace Zendesk.JsonSearch.Models
             SetAttribute(nameof(_id), id);
         }
 
+  
         public string _id { get; set; }
+
+        /// <summary>
+        /// name of record. It can be different field name (e.x. name in User but subject in Ticket) defined in metadata
+        /// </summary>
         public string name { get; set; }
+
+     
         public string entityName { get; set; }
+
+       
         public List<KeyValuePair<string, object>> Attributes { get; set; }
 
+    
         public T GetAttribute<T>(string name)
         {
             if (!Attributes.Any(a => a.Key == name)) return default(T);
             return (T)Attributes.First(att => att.Key == name).Value;
         }
 
+    
         public void SetAttribute(string name, object value)
         {
             if (name == nameof(_id)) _id = (string)value;
@@ -76,6 +87,7 @@ namespace Zendesk.JsonSearch.Models
             return stringBuilder.ToString();
         }
 
+   
         public EntityReference ToEntityReference()
         {
             return new EntityReference
@@ -86,6 +98,12 @@ namespace Zendesk.JsonSearch.Models
             };
         }
 
+        /// <summary>
+        /// This is to convert generic Entity to any specific entity type. (e.x. User/Ticket in early bound folder)
+        /// Not used in this project. For extension and demo only.
+        /// </summary>
+        /// <typeparam name="T">target entity type class</typeparam>
+        /// <returns>instance of target entity type</returns>
         public T ToEntity<T>() where T : Entity
         {
             if (typeof(T) == typeof(Entity))

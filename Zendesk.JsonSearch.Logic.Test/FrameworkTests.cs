@@ -22,7 +22,7 @@ namespace Zendesk.JSonSearch.Logic.Test
             userSample.Attributes.Add(new KeyValuePair<string, object>("name", "Francisca Rasmussen"));
             userSample.Attributes.Add(new KeyValuePair<string, object>("created_at", "2016-04-15T05:19:46-10:00"));
             userSample.Attributes.Add(new KeyValuePair<string, object>("verified", true));
-            userSample.Attributes.Add(new KeyValuePair<string, object>("ticket", new List<string> { "A Problem in Russian Federation", "A Problem in Malawi" }));
+            userSample.Attributes.Add(new KeyValuePair<string, object>("tickets", new List<string> { "A Problem in Russian Federation", "A Problem in Malawi" }));
             
 
             ticketSample = new Entity("436bf9b0-1147-4c0a-8439-6f79833bff5b", "ticket");
@@ -207,12 +207,12 @@ namespace Zendesk.JSonSearch.Logic.Test
                 && entity.name == user.name
                 && entity.GetAttribute<string>("created_at") == user.GetAttribute<string>("created_at")
                 && entity.GetAttribute<bool>("verified") == user.GetAttribute<bool>("verified");
-            var tickets = entity.GetAttribute<List<string>>("ticket");
+            var tickets = entity.GetAttribute<List<string>>("tickets");
             if (tickets.Any())
             {
                 for (var i = 0; i < tickets.Count; i++)
                 {
-                    isSame = isSame && tickets[i] == user.GetAttribute<List<string>>("ticket")[i];
+                    isSame = isSame && tickets[i] == user.GetAttribute<List<string>>("tickets")[i];
                 }
             }
             return isSame;
