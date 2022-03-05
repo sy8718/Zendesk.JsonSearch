@@ -38,7 +38,7 @@ Here is definition of metadata.json:
 }
 ```
 In real production environment the metadata should be saved in database as well.
-By this design who project is generic. As long as json files are in correct format, the app can handle without any code change.
+By this design the project is generic. As long as json files are in correct format, the app can handle without any code change.
 
 ## Extension Option
 
