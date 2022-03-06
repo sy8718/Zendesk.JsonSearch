@@ -140,6 +140,15 @@ namespace Zendesk.JSonSearch.Logic.Test
         }
 
         [Test]
+        public void TestSearchNonStringFieldWithStringInput()
+        {
+            var users = Framework.Instance.Search("users", "verified", "true");
+            Assert.IsTrue(users.Count == 26);
+            var user = users.First();
+            Assert.IsTrue(IsUserSame(user, userSample));
+        }
+
+        [Test]
         public void TestSearchWithIndexingPropertyAndEmptyValue()
         {
             var users = Framework.Instance.Search("users", "verified", string.Empty);
