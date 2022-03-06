@@ -132,8 +132,8 @@ namespace Zendesk.JsonSearch
         private static void Restart()
         {
             Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("Click any key to restart");
-            Console.ReadKey();
+            Console.WriteLine("Click enter to restart");
+            GetInput();
             Start();
         }
     }
