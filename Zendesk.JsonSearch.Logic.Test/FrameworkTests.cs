@@ -19,20 +19,20 @@ namespace Zendesk.JSonSearch.Logic.Test
 
             userSample = new Entity("1", "user");
             userSample.name = "Francisca Rasmussen";
-            userSample.Attributes.Add(new KeyValuePair<string, object>("name", "Francisca Rasmussen"));
-            userSample.Attributes.Add(new KeyValuePair<string, object>("created_at", "2016-04-15T05:19:46-10:00"));
-            userSample.Attributes.Add(new KeyValuePair<string, object>("verified", true));
-            userSample.Attributes.Add(new KeyValuePair<string, object>("tickets", new List<string> { "A Problem in Russian Federation", "A Problem in Malawi" }));
+            userSample.SetAttribute("name", "Francisca Rasmussen");
+            userSample.SetAttribute("created_at", "2016-04-15T05:19:46-10:00");
+            userSample.SetAttribute("verified", true);
+            userSample.SetAttribute("tickets", new List<string> { "A Problem in Russian Federation", "A Problem in Malawi" });
             
 
             ticketSample = new Entity("436bf9b0-1147-4c0a-8439-6f79833bff5b", "ticket");
             ticketSample.name = "A Catastrophe in Korea (North)";
-            ticketSample.Attributes.Add(new KeyValuePair<string, object>("created_at", "2016-04-28T11:19:34-10:00"));
-            ticketSample.Attributes.Add(new KeyValuePair<string, object>("type", "incident"));
-            ticketSample.Attributes.Add(new KeyValuePair<string, object>("subject", "A Catastrophe in Korea (North)"));
-            ticketSample.Attributes.Add(new KeyValuePair<string, object>("assignee_id", "24"));
-            ticketSample.Attributes.Add(new KeyValuePair<string, object>("assignee_name", "Harris Côpeland"));
-            ticketSample.Attributes.Add(new KeyValuePair<string, object>("tags", new List<string> { "Ohio", "Pennsylvania", "American Samoa", "Northern Mariana Islands" }));
+            ticketSample.SetAttribute("created_at", "2016-04-28T11:19:34-10:00");
+            ticketSample.SetAttribute("type", "incident");
+            ticketSample.SetAttribute("subject", "A Catastrophe in Korea (North)");
+            ticketSample.SetAttribute("assignee_id", "24");
+            ticketSample.SetAttribute("assignee_name", "Harris Côpeland");
+            ticketSample.SetAttribute("tags", new List<string> { "Ohio", "Pennsylvania", "American Samoa", "Northern Mariana Islands" });
         }
 
         #region Test Wrong JSON

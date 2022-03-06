@@ -14,18 +14,18 @@ namespace Zendesk.JsonSearch.Models.Test
         {
             user = new Entity("1", "user");
             user.name = "Francisca Rasmussen";
-            user.Attributes.Add(new KeyValuePair<string, object>("name", "Francisca Rasmussen"));
-            user.Attributes.Add(new KeyValuePair<string, object>("created_at", "2016-04-15T05:19:46-10:00"));
-            user.Attributes.Add(new KeyValuePair<string, object>("verified", true));
+            user.SetAttribute("name", "Francisca Rasmussen");
+            user.SetAttribute("created_at", "2016-04-15T05:19:46-10:00");
+            user.SetAttribute("verified", true);
 
             ticket = new Entity("436bf9b0-1147-4c0a-8439-6f79833bff5b", "ticket");
             ticket.name = "A Catastrophe in Korea (North)";
-            ticket.Attributes.Add(new KeyValuePair<string, object>("created_at", "2016-04-28T11:19:34-10:00"));
-            ticket.Attributes.Add(new KeyValuePair<string, object>("type", "incident"));
-            ticket.Attributes.Add(new KeyValuePair<string, object>("subject", "A Catastrophe in Korea (North)"));
-            ticket.Attributes.Add(new KeyValuePair<string, object>("assignee_id", "24"));
-            ticket.Attributes.Add(new KeyValuePair<string, object>("assignee", new EntityReference { _id = "24", entityName = "user" }));
-            ticket.Attributes.Add(new KeyValuePair<string, object>("tags", new List<string> { "Ohio", "Pennsylvania", "American Samoa", "Northern Mariana Islands" }));
+            ticket.SetAttribute("created_at", "2016-04-28T11:19:34-10:00");
+            ticket.SetAttribute("type", "incident");
+            ticket.SetAttribute("subject", "A Catastrophe in Korea (North)");
+            ticket.SetAttribute("assignee_id", "24");
+            ticket.SetAttribute("assignee", new EntityReference { _id = "24", entityName = "user" });
+            ticket.SetAttribute("tags", new List<string> { "Ohio", "Pennsylvania", "American Samoa", "Northern Mariana Islands" });
         }
 
         #region Happy pass - with correct values

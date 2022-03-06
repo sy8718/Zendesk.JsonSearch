@@ -1,7 +1,6 @@
 C:\Users\Kevin\source\repos\sy8718\Zendesk.JsonSearch\Zendesk.JsonSearch.Models\bin\Debug\netcoreapp3.1\Zendesk.JsonSearch.Models.deps.json
 C:\Users\Kevin\source\repos\sy8718\Zendesk.JsonSearch\Zendesk.JsonSearch.Models\bin\Debug\netcoreapp3.1\Zendesk.JsonSearch.Models.dll
 C:\Users\Kevin\source\repos\sy8718\Zendesk.JsonSearch\Zendesk.JsonSearch.Models\bin\Debug\netcoreapp3.1\Zendesk.JsonSearch.Models.pdb
-C:\Users\Kevin\source\repos\sy8718\Zendesk.JsonSearch\Zendesk.JsonSearch.Models\obj\Debug\netcoreapp3.1\Zendesk.JsonSearch.Models.csprojAssemblyReference.cache
 C:\Users\Kevin\source\repos\sy8718\Zendesk.JsonSearch\Zendesk.JsonSearch.Models\obj\Debug\netcoreapp3.1\Zendesk.JsonSearch.Models.AssemblyInfoInputs.cache
 C:\Users\Kevin\source\repos\sy8718\Zendesk.JsonSearch\Zendesk.JsonSearch.Models\obj\Debug\netcoreapp3.1\Zendesk.JsonSearch.Models.AssemblyInfo.cs
 C:\Users\Kevin\source\repos\sy8718\Zendesk.JsonSearch\Zendesk.JsonSearch.Models\obj\Debug\netcoreapp3.1\Zendesk.JsonSearch.Models.csproj.CoreCompileInputs.cache

@@ -44,7 +44,7 @@ namespace Zendesk.JsonSearch.Models
         public string entityName { get; set; }
 
        
-        public List<KeyValuePair<string, object>> Attributes { get; set; }
+        public List<KeyValuePair<string, object>> Attributes { get; private set; }
 
     
         public T GetAttribute<T>(string name)

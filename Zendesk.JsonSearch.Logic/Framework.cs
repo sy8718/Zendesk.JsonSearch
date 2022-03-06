@@ -261,7 +261,7 @@ namespace Zendesk.JsonSearch.Logic
                     var relatedEntities = GetFromRelatedEntity(entity, fromRelationship);
                     if (relatedEntities != null && relatedEntities.Any())
                     {
-                        entity.Attributes.Add(new KeyValuePair<string, object>(GetFileNameByEntityName(fromRelationship.ToEntity), relatedEntities.Select(e => e.name).ToList()));
+                        entity.SetAttribute(GetFileNameByEntityName(fromRelationship.ToEntity), relatedEntities.Select(e => e.name).ToList());
                     }
                 }
             }
@@ -272,7 +272,7 @@ namespace Zendesk.JsonSearch.Logic
                     var relatedEntity = GetToRelatedEntity(entity, toRelationship)?.FirstOrDefault();
                     if (relatedEntity != null)
                     {
-                        entity.Attributes.Add(new KeyValuePair<string, object>(toRelationship.ToProperty.Replace("_id", "_name"), relatedEntity.name));
+                        entity.SetAttribute(toRelationship.ToProperty.Replace("_id", "_name"), relatedEntity.name);
                     }
                 }
             }
