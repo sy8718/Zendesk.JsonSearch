@@ -73,6 +73,11 @@ Build Image
 Navigate to the root project folder in command line window (bash, cmd, etc)
 
 ```
+git clone https://github.com/sy8718/Zendesk.JsonSearch.App.git
+cd ./Zendesk.JsonSearch.App
+```
+
+```
 Docker build -t kevin.zendesk.jsonsearch . 
 ```
 Run app

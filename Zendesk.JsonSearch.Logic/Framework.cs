@@ -195,12 +195,22 @@ namespace Zendesk.JsonSearch.Logic
                 && CahcedIndexingCollection.IndexingCollection[entityToSearch].ContainsKey(propertyToSearch)
                 && CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings != null)
             {
-                if (CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings.ContainsKey(valueToSearch))
+                var indexing = CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings;
+                if (indexing.Keys.FirstOrDefault()!=null)
+                {
+                    //convert the user input value to the same type of field type.
+                    //for example, if searching verified in user, which type is bool, try to convert user input to bool
+                    //if user type in "true" or "false" it will successfully converted. Otherwise it will remain string
+                    var type = indexing.Keys.FirstOrDefault().GetType();
+                    valueToSearch = GeneralHelper.TryChangeType(valueToSearch, type);
+                }
+
+                if (indexing.ContainsKey(valueToSearch))
                 {
                     var ids = CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings[valueToSearch];
                     return CahcedEntityCollection.EntityCollection[entityToSearch].Entities.Where(e => ids.Any(id => id == e.Key)).Select(e => e.Value).ToList();
                 }
-                else if(string.IsNullOrWhiteSpace(valueToSearch.ToString()))
+                else if (string.IsNullOrWhiteSpace(valueToSearch.ToString()))
                 {
                     //To search field with no value, return all entity id that is not existing in the indexing cache
                     var idsToIgnore = CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings.Values;
@@ -225,6 +235,7 @@ namespace Zendesk.JsonSearch.Logic
                     }
                     else
                     {
+                        valueToSearch = GeneralHelper.TryChangeType(valueToSearch, propertyValue.GetType());
                         if (propertyValue.Equals(valueToSearch)) filteredEntities.Add(entity.Value);
                     }
                 }
