@@ -64,7 +64,7 @@ namespace Zendesk.JsonSearch.Models
             Attributes.Add(new KeyValuePair<string, object>(name, value));
         }
 
-        public string ToConsoleString()
+        public virtual string ToConsoleString()
         {
             var stringBuilder = new StringBuilder();
             foreach (var pair in Attributes)

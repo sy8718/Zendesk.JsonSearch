@@ -17,13 +17,21 @@ namespace Zendesk.JsonSearch.Logic
     /// <summary>
     /// As all data will be loaded into memory, the class needs to be static or use singleton 
     /// </summary>
-    public static class Framework
+    public sealed class Framework
     {
-     
-        public static CacheModel.CachedEntityCollection CahcedEntityCollection { get; private set; }
-        public static CacheModel.CachedIndexingCollection CahcedIndexingCollection { get; private set; }
-        public static IConfiguration Configuration { get; private set; }
-        public static Metadata Metadata { get; private set; }
+        // Use Lazy<T> to make threading safe
+        private static readonly Lazy<Framework> lazy =
+        new Lazy<Framework>(() => new Framework());
+        public static Framework Instance { get { return lazy.Value; } }
+
+        private Framework()
+        {
+        }
+
+        public CacheModel.CachedEntityCollection CahcedEntityCollection { get; private set; }
+        public CacheModel.CachedIndexingCollection CahcedIndexingCollection { get; private set; }
+        public IConfiguration Configuration { get; private set; }
+        public Metadata Metadata { get; private set; }
 
 
 
@@ -32,7 +40,7 @@ namespace Zendesk.JsonSearch.Logic
         /// Initialise the app will load all data into memory
         /// </summary>
         /// <param name="configFile">Conifg file to be loaded. use default data if leave blank</param>
-        public static void Initialise(string configFile = Consts.ConfigConsts.ConfigFile)
+        public void Initialise(string configFile = Consts.ConfigConsts.ConfigFile)
         {
             InitialConfiguration(configFile);
             InitialMetadata();
@@ -40,12 +48,12 @@ namespace Zendesk.JsonSearch.Logic
 
         }
 
-        private static void InitialConfiguration(string configFile)
+        private void InitialConfiguration(string configFile)
         {
             Configuration = ConfigHelper.InitialiseConfig(configFile);
         }
 
-        private static void InitialMetadata()
+        private void InitialMetadata()
         {
             var fileAddress = $"{Configuration[ConfigConsts.MetadataFileFolder]}/{Configuration[ConfigConsts.MetadataFileName]}";
             try
@@ -67,7 +75,7 @@ namespace Zendesk.JsonSearch.Logic
             }
         }
 
-        private static void InitialEntitiesAndIndexings()
+        private void InitialEntitiesAndIndexings()
         {
             var directoryAddress = Configuration[ConfigConsts.EntitiesFileFolder];
             try
@@ -117,14 +125,14 @@ namespace Zendesk.JsonSearch.Logic
         #endregion
 
         #region Search
-   
-        public static string GetSearchResult(string entityToSearch, string propertyToSearch, object valueToSearch)
+
+        public string GetSearchResult(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             var entities = Search(entityToSearch, propertyToSearch, valueToSearch);
             return entities == null || !entities.Any() ? TextConsts.NoResult : Entity.ToConsoleString(entities);
         }
 
-        public static List<Entity> Search(string entityToSearch, string propertyToSearch, object valueToSearch)
+        public List<Entity> Search(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             if (!CahcedEntityCollection.EntityCollection.ContainsKey(entityToSearch)) return null;
             if (propertyToSearch == nameof(Entity._id))
@@ -149,8 +157,8 @@ namespace Zendesk.JsonSearch.Logic
         /// <summary>
         /// Search by id field. id field is the key of the dictionary so needs to be treated separately to improve performance
         /// </summary>
-   
-        private static Entity SearchById(string entityToSearch, object id)
+
+        private Entity SearchById(string entityToSearch, object id)
         {
             if (id == null) return null;
             if (CahcedEntityCollection != null
@@ -162,7 +170,7 @@ namespace Zendesk.JsonSearch.Logic
             return null;
         }
 
-        private static List<Entity> SearchByProperty(string entityToSearch, string propertyToSearch, object valueToSearch)
+        private List<Entity> SearchByProperty(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             if (propertyToSearch == nameof(Entity._id))
             {
@@ -181,8 +189,8 @@ namespace Zendesk.JsonSearch.Logic
             return entities;
         }
 
-  
-        private static List<Entity> SearchWithIndexing(string entityToSearch, string propertyToSearch, object valueToSearch)
+
+        private List<Entity> SearchWithIndexing(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             if (CahcedIndexingCollection.IndexingCollection.ContainsKey(entityToSearch)
                 && CahcedIndexingCollection.IndexingCollection[entityToSearch].ContainsKey(propertyToSearch)
@@ -195,7 +203,7 @@ namespace Zendesk.JsonSearch.Logic
             return null;
         }
 
-        private static List<Entity> SearchWithoutIndexing(string entityToSearch, string propertyToSearch, object valueToSearch)
+        private List<Entity> SearchWithoutIndexing(string entityToSearch, string propertyToSearch, object valueToSearch)
         {
             var entities = CahcedEntityCollection.EntityCollection[entityToSearch].Entities;
             var filteredEntities = new List<Entity>();
@@ -217,8 +225,8 @@ namespace Zendesk.JsonSearch.Logic
             return filteredEntities.Any() ? filteredEntities : null;
         }
 
-  
-        private static void IncludeRelatedEntities(Entity entity)
+
+        private void IncludeRelatedEntities(Entity entity)
         {
             var stringBuilder = new StringBuilder();
             var fromRelationships = Metadata.Relationships?.Where(r => r.FromEntity == entity.entityName).ToList();
@@ -249,24 +257,24 @@ namespace Zendesk.JsonSearch.Logic
         }
 
 
-        private static List<Entity> GetFromRelatedEntity(Entity entity, Relationship relationship)
+        private List<Entity> GetFromRelatedEntity(Entity entity, Relationship relationship)
         {
             return SearchByProperty(GetFileNameByEntityName(relationship.ToEntity), relationship.ToProperty, entity.GetAttribute<object>(relationship.FromProperty));
         }
 
- 
-        private static List<Entity> GetToRelatedEntity(Entity entity, Relationship relationship)
+
+        private List<Entity> GetToRelatedEntity(Entity entity, Relationship relationship)
         {
             return SearchByProperty(GetFileNameByEntityName(relationship.FromEntity), relationship.FromProperty, entity.GetAttribute<string>(relationship.ToProperty));
         }
 
- 
-        private static string GetFileNameByEntityName(string entityName)
+
+        private string GetFileNameByEntityName(string entityName)
         {
             return Metadata.Entities.First(e => e.EntityName == entityName).FileName;
         }
-  
-        public static List<EntityMetadata> GetEntities()
+
+        public List<EntityMetadata> GetEntityMetadatas()
         {
             if (Metadata == null) Initialise();
             return Metadata.Entities;

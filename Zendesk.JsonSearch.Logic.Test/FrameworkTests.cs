@@ -15,7 +15,7 @@ namespace Zendesk.JSonSearch.Logic.Test
         [SetUp]
         public void Setup()
         {
-            Framework.Initialise();
+            Framework.Instance.Initialise();
 
             userSample = new Entity("1", "user");
             userSample.name = "Francisca Rasmussen";
@@ -39,20 +39,20 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestWrongDirectory()
         {
-            Assert.Catch<DirectoryNotFoundException>(() => Framework.Initialise("appsettings_wrongdirectory.json"));
+            Assert.Catch<DirectoryNotFoundException>(() => Framework.Instance.Initialise("appsettings_wrongdirectory.json"));
         }
 
 
         [Test]
         public void TestWrongJSONFormat()
         {
-            Assert.Catch<JsonDeseriliseException>(() => Framework.Initialise("appsettings_wrongjsonformat.json"));
+            Assert.Catch<JsonDeseriliseException>(() => Framework.Instance.Initialise("appsettings_wrongjsonformat.json"));
         }
 
         [Test]
         public void TestWrongFileName()
         {
-            Assert.Catch<FileNotFoundException>(() => Framework.Initialise("appsettings_wrongfilename.json"));
+            Assert.Catch<FileNotFoundException>(() => Framework.Instance.Initialise("appsettings_wrongfilename.json"));
         }
         #endregion
 
@@ -60,26 +60,26 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestMetadataCount()
         {
-            Assert.IsTrue(Framework.Metadata.Entities.Count == 2);
-            Assert.IsTrue(Framework.Metadata.Relationships.Count == 1);
+            Assert.IsTrue(Framework.Instance.Metadata.Entities.Count == 2);
+            Assert.IsTrue(Framework.Instance.Metadata.Relationships.Count == 1);
         }
 
         [Test]
         public void TestCachedEntityCount()
         {
-            Assert.IsTrue(Framework.CahcedEntityCollection.EntityCollection.Count == 2);
-            Assert.IsTrue(Framework.CahcedEntityCollection.EntityCollection["users"].Entities.Count == 75);
-            Assert.IsTrue(Framework.CahcedEntityCollection.EntityCollection["tickets"].Entities.Count == 200);
+            Assert.IsTrue(Framework.Instance.CahcedEntityCollection.EntityCollection.Count == 2);
+            Assert.IsTrue(Framework.Instance.CahcedEntityCollection.EntityCollection["users"].Entities.Count == 75);
+            Assert.IsTrue(Framework.Instance.CahcedEntityCollection.EntityCollection["tickets"].Entities.Count == 200);
         }
 
         [Test]
         public void TestCachedIndexingCount()
         {
-            Assert.IsTrue(Framework.CahcedIndexingCollection.IndexingCollection.Count == 2);
-            Assert.IsTrue(Framework.CahcedIndexingCollection.IndexingCollection["users"].Count == 2);
-            Assert.IsTrue(Framework.CahcedIndexingCollection.IndexingCollection["tickets"].Count == 4);
-            Assert.IsTrue(Framework.CahcedIndexingCollection.IndexingCollection["users"]["verified"].Indexings.Count == 2);
-            Assert.IsTrue(Framework.CahcedIndexingCollection.IndexingCollection["tickets"]["type"].Indexings.Count == 4);
+            Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection.Count == 2);
+            Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["users"].Count == 2);
+            Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["tickets"].Count == 4);
+            Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["users"]["verified"].Indexings.Count == 2);
+            Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["tickets"]["type"].Indexings.Count == 4);
         }
         #endregion
 
@@ -87,7 +87,7 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithIdAndCorrectValueWithRelatedToEntities()
         {
-            var users = Framework.Search("users", "_id", 1);
+            var users = Framework.Instance.Search("users", "_id", 1);
             Assert.IsTrue(users.Count == 1);
             var user = users.First();
             Assert.IsTrue(IsUserSame(user,userSample));
@@ -96,7 +96,7 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithIdAndCorrectValueWithRelatedFromEntities()
         {
-            var tickets = Framework.Search("tickets", "_id", "436bf9b0-1147-4c0a-8439-6f79833bff5b");
+            var tickets = Framework.Instance.Search("tickets", "_id", "436bf9b0-1147-4c0a-8439-6f79833bff5b");
             Assert.IsTrue(tickets.Count == 1);
             var ticket = tickets.First();
             Assert.IsTrue(IsTicketSame(ticket, ticketSample));
@@ -105,12 +105,12 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithIndexingPropertyAndCorrectValue()
         {
-            var users = Framework.Search("users", "name", "Francisca Rasmussen");
+            var users = Framework.Instance.Search("users", "name", "Francisca Rasmussen");
             Assert.IsTrue(users.Count == 1);
             var user = users.First();
             Assert.IsTrue(IsUserSame(user, userSample));
 
-            var tickets = Framework.Search("tickets", "type", "incident");
+            var tickets = Framework.Instance.Search("tickets", "type", "incident");
             Assert.IsTrue(tickets.Count == 35);
             var ticket = tickets.First();
             Assert.IsTrue(IsTicketSame(ticket, ticketSample));
@@ -119,12 +119,12 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithNonIndexingPropertyAndCorrectValue()
         {
-            var users = Framework.Search("users", "created_at", "2016-04-15T05:19:46-10:00");
+            var users = Framework.Instance.Search("users", "created_at", "2016-04-15T05:19:46-10:00");
             Assert.IsTrue(users.Count == 1);
             var user = users.First();
             Assert.IsTrue(IsUserSame(user, userSample));
 
-            var tickets = Framework.Search("tickets", "subject", "A Catastrophe in Korea (North)");
+            var tickets = Framework.Instance.Search("tickets", "subject", "A Catastrophe in Korea (North)");
             Assert.IsTrue(tickets.Count == 1);
             var ticket = tickets.First();
             Assert.IsTrue(IsTicketSame(ticket, ticketSample));
@@ -133,7 +133,7 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithListStringAndCorrectValue()
         {
-            var tickets = Framework.Search("tickets", "tags", "Ohio");
+            var tickets = Framework.Instance.Search("tickets", "tags", "Ohio");
             Assert.IsTrue(tickets.Count == 14);
             var ticket = tickets.First();
             Assert.IsTrue(IsTicketSame(ticket, ticketSample));
@@ -146,9 +146,9 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithIdAndWrongValue()
         {
-            var users = Framework.Search("users", "_id", 999);
+            var users = Framework.Instance.Search("users", "_id", 999);
             Assert.IsTrue(users == null);
-            var tickets = Framework.Search("tickets", "_id", 999);
+            var tickets = Framework.Instance.Search("tickets", "_id", 999);
             Assert.IsTrue(tickets == null);
         }
 
@@ -157,10 +157,10 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithIndexingPropertyAndWrongValue()
         {
-            var users = Framework.Search("users", "name", "wrongvalue");
+            var users = Framework.Instance.Search("users", "name", "wrongvalue");
             Assert.IsTrue(users == null);
 
-            var tickets = Framework.Search("tickets", "type", "wrongvalue");
+            var tickets = Framework.Instance.Search("tickets", "type", "wrongvalue");
             Assert.IsTrue(tickets == null);
         }
 
@@ -169,10 +169,10 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithNonIndexingPropertyAndWrongValue()
         {
-            var users = Framework.Search("users", "created_at", "wrongvalue");
+            var users = Framework.Instance.Search("users", "created_at", "wrongvalue");
             Assert.IsTrue(users == null);
 
-            var tickets = Framework.Search("tickets", "subject", "wrongvalue");
+            var tickets = Framework.Instance.Search("tickets", "subject", "wrongvalue");
             Assert.IsTrue(tickets == null);
         }
 
@@ -180,21 +180,21 @@ namespace Zendesk.JSonSearch.Logic.Test
         [Test]
         public void TestSearchWithListStringAndWrongValue()
         {
-            var tickets = Framework.Search("tickets", "tags", "wrongvalue");
+            var tickets = Framework.Instance.Search("tickets", "tags", "wrongvalue");
             Assert.IsTrue(tickets == null);
         }
 
         [Test]
         public void TestSearchWithWrongEntity()
         {
-            var entities = Framework.Search("wrongentity", "_id", 999);
+            var entities = Framework.Instance.Search("wrongentity", "_id", 999);
             Assert.IsTrue(entities == null);
         }
 
         [Test]
         public void TestSearchWithWrongProperty()
         {
-            var entities = Framework.Search("users", "wrongproperty", 999);
+            var entities = Framework.Instance.Search("users", "wrongproperty", 999);
             Assert.IsTrue(entities == null);
         }
 

@@ -11,13 +11,13 @@ namespace Zendesk.JsonSearch
         static void Main(string[] args)
         {
             Console.WriteLine("Initialising, please wait...");
-            Logic.Framework.Initialise();
+            Logic.Framework.Instance.Initialise();
             Start();
         }
 
         private static void Start()
         {
-            var entityMetadatas = Logic.Framework.GetEntities();
+            var entityMetadatas = Logic.Framework.Instance.GetEntityMetadatas();
             EntryTxt();
             var input = GetInput();
             switch (input)
@@ -125,7 +125,7 @@ namespace Zendesk.JsonSearch
         private static void SearchResult(EntityMetadata entityToSearch,string propertyToSearch,string valueToSearch)
         {
             Console.WriteLine($"Searching {entityToSearch.DisplayName} for {propertyToSearch} with a value of {valueToSearch}");
-            var result = Logic.Framework.GetSearchResult(entityToSearch.FileName, propertyToSearch, valueToSearch);
+            var result = Logic.Framework.Instance.GetSearchResult(entityToSearch.FileName, propertyToSearch, valueToSearch);
             Console.WriteLine(result);
         }
 

@@ -78,7 +78,7 @@ Docker build -t kevin.zendesk.jsonsearch .
 Run app
 
 ```
-Docker run -ti kevin-zendesk-jsonsearch
+Docker run -ti kevin.zendesk.jsonsearch
 ```
 Build test image
 
