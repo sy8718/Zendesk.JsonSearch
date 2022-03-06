@@ -15,13 +15,12 @@ using Zendesk.JsonSearch.Models.Helpers;
 namespace Zendesk.JsonSearch.Logic
 {
     /// <summary>
-    /// As all data will be loaded into memory, the class needs to be static or use singleton 
+    /// As all data will be loaded into memory and shared during the whole application lifetime, the class needs to be static or use singleton 
     /// </summary>
     public sealed class Framework
     {
         // Use Lazy<T> to make threading safe
-        private static readonly Lazy<Framework> lazy =
-        new Lazy<Framework>(() => new Framework());
+        private static readonly Lazy<Framework> lazy = new Lazy<Framework>(() => new Framework());
         public static Framework Instance { get { return lazy.Value; } }
 
         private Framework()
@@ -194,11 +193,19 @@ namespace Zendesk.JsonSearch.Logic
         {
             if (CahcedIndexingCollection.IndexingCollection.ContainsKey(entityToSearch)
                 && CahcedIndexingCollection.IndexingCollection[entityToSearch].ContainsKey(propertyToSearch)
-                && CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings != null
-                && CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings.ContainsKey(valueToSearch))
+                && CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings != null)
             {
-                var ids = CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings[valueToSearch];
-                return CahcedEntityCollection.EntityCollection[entityToSearch].Entities.Where(e => ids.Any(id => id == e.Key)).Select(e => e.Value).ToList();
+                if (CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings.ContainsKey(valueToSearch))
+                {
+                    var ids = CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings[valueToSearch];
+                    return CahcedEntityCollection.EntityCollection[entityToSearch].Entities.Where(e => ids.Any(id => id == e.Key)).Select(e => e.Value).ToList();
+                }
+                else if(string.IsNullOrWhiteSpace(valueToSearch.ToString()))
+                {
+                    //To search field with no value, return all entity id that is not existing in the indexing cache
+                    var idsToIgnore = CahcedIndexingCollection.IndexingCollection[entityToSearch][propertyToSearch].Indexings.Values;
+                    return CahcedEntityCollection.EntityCollection[entityToSearch].Entities.Where(e => idsToIgnore.All(ids => ids.All(id => id != e.Key))).Select(e => e.Value).ToList();
+                }
             }
             return null;
         }
@@ -220,6 +227,10 @@ namespace Zendesk.JsonSearch.Logic
                     {
                         if (propertyValue.Equals(valueToSearch)) filteredEntities.Add(entity.Value);
                     }
+                }
+                else
+                {
+                    if (String.IsNullOrWhiteSpace(valueToSearch.ToString())) filteredEntities.Add(entity.Value);
                 }
             }
             return filteredEntities.Any() ? filteredEntities : null;

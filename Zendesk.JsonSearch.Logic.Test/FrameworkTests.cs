@@ -77,7 +77,7 @@ namespace Zendesk.JSonSearch.Logic.Test
         {
             Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection.Count == 2);
             Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["users"].Count == 2);
-            Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["tickets"].Count == 4);
+            Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["tickets"].Count == 3);
             Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["users"]["verified"].Indexings.Count == 2);
             Assert.IsTrue(Framework.Instance.CahcedIndexingCollection.IndexingCollection["tickets"]["type"].Indexings.Count == 4);
         }
@@ -137,6 +137,24 @@ namespace Zendesk.JSonSearch.Logic.Test
             Assert.IsTrue(tickets.Count == 14);
             var ticket = tickets.First();
             Assert.IsTrue(IsTicketSame(ticket, ticketSample));
+        }
+
+        [Test]
+        public void TestSearchWithIndexingPropertyAndEmptyValue()
+        {
+            var users = Framework.Instance.Search("users", "verified", string.Empty);
+            Assert.IsTrue(users.Count == 2);
+            var user = users.First();
+            Assert.IsTrue(user._id=="54"&&user.name=="Spence Tate");
+        }
+
+        [Test]
+        public void TestSearchWithNonIndexingPropertyAndEmptyValue()
+        {
+            var tickets = Framework.Instance.Search("tickets", "assignee_id", string.Empty);
+            Assert.IsTrue(tickets.Count == 4);
+            var ticket = tickets.First();
+            Assert.IsTrue(ticket._id == "e68d8bfd-9826-42fd-9692-add445aa7430" && ticket.name == "A Catastrophe in Falkland Islands (Malvinas)");
         }
 
         #endregion

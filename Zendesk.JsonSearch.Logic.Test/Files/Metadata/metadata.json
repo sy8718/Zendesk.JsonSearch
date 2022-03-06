@@ -35,7 +35,6 @@
       "indexingproperties": [
         "created_at",
         "type",
-        "assignee_id",
         "tags"
       ]
     }

@@ -146,7 +146,7 @@ dotnet test
 	
     ![](images/image4.png)
 5. If type in any invalid option, same error message as step 3 will printed.
-6. When all input are valid, result will be printed.
+6. When all input are valid, result will be printed. Please press "enter" directly when entering search value to search missing value records.
    
     ![](images/image5.png)
 7. If there are multiple records, all records will be printed.
